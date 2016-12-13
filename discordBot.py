@@ -1,5 +1,7 @@
 import discord
 import asyncio
+import os
+import random
 
 client = discord.Client()
 
@@ -23,5 +25,9 @@ async def on_message(message):
     elif message.content.startswith('!sleep'):
         await asyncio.sleep(5)
         await client.send_message(message.channel, 'Done sleeping')
+    elif message.content.startswith('!cat'):
+        dir = 'Data\Images\Cats'
+        filename = random.choice(os.listdir(dir))
+        await client.send_file(message.channel,'Data\Images\Cats\\' + filename)
 
 client.run('MjU1NzI3MDQxMTg4NDYyNTky.CynueQ.G_p98nuLKEhuYXMipx2n1ZYYPwU')
