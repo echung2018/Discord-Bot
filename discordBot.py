@@ -21,18 +21,19 @@ async def on_message(message):
         await client.send_file(message.channel,'Data\Images\Cats\\' + filename)
         print('working')
         
-    elif message.content.startswith('!youtube'):
-        query = message.content[len('!youtube'):]
+    elif message.content.startswith('!youtube '):
+        query = message.content[len('!youtube '):]
         searchLink = 'https://www.youtube.com/results?search_query=' + query.replace(' ', '+')
-        html_content = urllib.request.urlopen(searchLink)
+        html_content = urllib.request.urlopen(searchLink).read()
+
+        link = re.findall(r'/watch\?v=\w+"', html_content.decode())
         #search_results = re.findall(r'href=\"\/watch\?v=(.{11})', html_content.read().decode())
         
-        print(html_content.read().decode())
+        #html_content.close()
         
         
-        '''
-        link = ''
-        client.send_message(message.channel,  link)
-        '''
+    
+        await client.send_message(message.channel,  'www.youtube.com' + link[0][:-1])
+        print(link)
 
 client.run('MjU1NzI3MDQxMTg4NDYyNTky.CynueQ.G_p98nuLKEhuYXMipx2n1ZYYPwU')
