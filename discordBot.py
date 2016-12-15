@@ -15,7 +15,7 @@ async def on_ready():
 
 @client.event
 async def on_message(message):
-    if message.content.startswith('!cat'):
+    if message.content.startswith('!cat '):
         dir = 'Data\Images\Cats'
         filename = random.choice(os.listdir(dir))
         await client.send_file(message.channel,'Data\Images\Cats\\' + filename)
@@ -34,6 +34,9 @@ async def on_message(message):
         
     
         await client.send_message(message.channel,  'www.youtube.com' + link[0][:-1])
-        print(link)
-
+        
+    elif message.content.startswith('!image '):
+        query = message.content[len('!image '):]
+        searchLink = 'https://www.google.com/search?q=%s&safe=strict&source=lnms&tbm=isch&sa=X&ved=0ahUKEwiLxpGi2vTQAhUFHGMKHVllCfIQ_AUICSgC&biw=1920&bih=901' % query.replace(' ', '+')
+        
 client.run('MjU1NzI3MDQxMTg4NDYyNTky.CynueQ.G_p98nuLKEhuYXMipx2n1ZYYPwU')
