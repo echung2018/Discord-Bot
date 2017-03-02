@@ -31,23 +31,32 @@ async def on_message(message):
         
     
         await client.send_message(message.channel,  'https://www.youtube.com' + link[0][:-1])
-'''
-	elif message.content.startswith('!xkcd'):
-		query = message.content[len('!xkcd '):]
-		val += 1
-		if(query == null):
-			html_content = urllib.request.urlopen('https://www.xkcd.com').read()
-			ass = re.search(r'Permanent link to this comic: https://xkcd\.com/+/', html_content.decode())
-			currxkcd = int(ass.group(1))
-			xkcdNumb = int(random.random()*currxkcd)
-			link = "https://xkcd.com/%s" % (xkcdNumb)
-			html_content = urllib.request.urlopen('link').read()
-			titties = re.search(r'Image URL (for hotlinking/embedding): +png', html_content.decode())
-			pictureLink = titties.group(1) + "png"
-			urllib.request.urlretrieve(pictureLink, "Data\Cache\xkcd" + xkcdNumb + ".png")
 
-'''     
+    elif message.content.startswith('!xkcd'):
+        #print("gotem")
+        query = message.content[len('!xkcd'):]
+        if(True):
+            #print("Gotem")
+            html_content = urllib.request.urlopen('https://www.xkcd.com').read()
+            ass = re.findall(r'Permanent link to this comic: https://xkcd\.com/....', html_content.decode())
+            #print(ass[0][len('Permanent link to this comic: https://xkcd\.com'):])
+            currxkcd = int(ass[0][len('Permanent link to this comic: https://xkcd\.com'):])
+            xkcdNumb = int(random.random()*currxkcd)
+            link = "https://xkcd.com/%s" % (xkcdNumb)
+            #print(link)
+            html_content = urllib.request.urlopen(link).read()
+            #print(html_content)
+            titties = re.findall(r': .+png', html_content.decode())
+            #print(titties)
+            pictureLink = titties[0][2:]
+            urllib.request.urlretrieve(pictureLink, "Data\Cache\\xkcd" + str(xkcdNumb) + ".png")
+            await client.send_file(message.channel, "Data\Cache\\xkcd" + str(xkcdNumb) + ".png")
+
+    
 client.run('MjU1NzI3MDQxMTg4NDYyNTky.CynueQ.G_p98nuLKEhuYXMipx2n1ZYYPwU')
+
+
+#Image URL (for hotlinking/embedding): https://imgs.xkcd.com/comics/amazon.png
 
 
 
