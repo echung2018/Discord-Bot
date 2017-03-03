@@ -16,7 +16,7 @@ async def on_ready():
 
 @client.event
 async def on_message(message):
-    if message.content.startswith('!cat'):
+    if message.content.startswith('!cat') and len(message.conetent)<5:
         dir = 'Data\Images\Cats'
         filename = random.choice(os.listdir(dir))
         await client.send_file(message.channel,'Data\Images\Cats\\' + filename)
@@ -34,23 +34,25 @@ async def on_message(message):
 
     elif message.content.startswith('!xkcd'):
         #print("gotem")
-        query = message.content[len('!xkcd'):]
-        if(True):
-            #print("Gotem")
+        query = message.content[len('!xkcd '):]
+        if(len(message.content)<6):
+            print("Gotem")
             html_content = urllib.request.urlopen('https://www.xkcd.com').read()
             ass = re.findall(r'Permanent link to this comic: https://xkcd\.com/....', html_content.decode())
             #print(ass[0][len('Permanent link to this comic: https://xkcd\.com'):])
             currxkcd = int(ass[0][len('Permanent link to this comic: https://xkcd\.com'):])
             xkcdNumb = int(random.random()*currxkcd)
             link = "https://xkcd.com/%s" % (xkcdNumb)
-            #print(link)
+            print(link)
             html_content = urllib.request.urlopen(link).read()
             #print(html_content)
-            titties = re.findall(r': .+png', html_content.decode())
-            #print(titties)
-            pictureLink = titties[0][2:]
+            titties = re.findall(r'Image URL \(for hotlinking/embedding\): .+[png|jpg]', html_content.decode())
+            print(titties)
+            pictureLink = titties[0][len('Image URL (for hotlinking/embedding): '):]
             urllib.request.urlretrieve(pictureLink, "Data\Cache\\xkcd" + str(xkcdNumb) + ".png")
             await client.send_file(message.channel, "Data\Cache\\xkcd" + str(xkcdNumb) + ".png")
+            os.remove("Data\Cache\\xkcd" + str(xkcdNumb) + ".png")
+ 
 
     
 client.run('MjU1NzI3MDQxMTg4NDYyNTky.CynueQ.G_p98nuLKEhuYXMipx2n1ZYYPwU')
