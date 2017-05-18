@@ -16,7 +16,7 @@ async def on_ready():
 
 @client.event
 async def on_message(message):
-    if message.content.startswith('!cat') and len(message.conetent)<5:
+    if message.content.startswith('!cat') and len(message.content)<5:
         dir = 'Data\Images\Cats'
         filename = random.choice(os.listdir(dir))
         await client.send_file(message.channel,'Data\Images\Cats\\' + filename)
